@@ -2,9 +2,9 @@ from numpy import exp,array,random,dot
 
 class NeuralNetwork():
     
-    def __init__(self):
+    def __init__(self,input_dim):
         random.seed(1)
-        self.synaptic_weights = 2*random.random((3,1))-1
+        self.synaptic_weights = 2*random.random((input_dim,1))-1
 
     def __sigmoid(self,x):
         return 1/(1+exp(-x))
@@ -34,7 +34,7 @@ class NeuralNetwork():
 if __name__ == '__main__':
 
     #initialize a single neuron neural network
-    neural_network = NeuralNetwork()
+    neural_network = NeuralNetwork(2)
 
     print ('Random starting synaptic weights')
     print (neural_network.synaptic_weights)
@@ -42,14 +42,25 @@ if __name__ == '__main__':
     # The training set. We have 4 examples each consisting of 3 input values
     #and 1 output value
 
-    training_set_inputs = array([[0,0,1],[1,1,1],[1,0,1],[0,1,1]])
+    #Operation: input_1
+    #training_set_inputs = array([[0,0,1],[1,1,1],[1,0,1],[0,1,1]])
+    #training_set_outputs = array([[0,1,1,0]]).T
+    
+    #XOR Operation
+    training_set_inputs = array([[0,0],[0,1],[1,0],[1,1]])
     training_set_outputs = array([[0,1,1,0]]).T
 
-    neural_network.train(training_set_inputs,training_set_outputs,10)
+    neural_network.train(training_set_inputs,training_set_outputs,1000)
 
     print ('New Synaptic weights after training: ')
     print (neural_network.synaptic_weights)
 
     #Testing
     print ('predicting:')
-    print (neural_network.predict(array([1,0,0])))
+    print (neural_network.predict(array([0,0])))
+    
+    print("Custom input")
+    inp=[]
+    for i in range(2):
+        inp.append(int(input("Input "+str(i)+":  ")))
+    print (neural_network.predict(array(inp)))
